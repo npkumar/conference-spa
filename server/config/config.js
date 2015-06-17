@@ -1,4 +1,4 @@
 // Database URL
 module.exports = {
-	'url': 'localhost/conferenceDB'
+	'url': 'mongodb://localhost/conferenceDB'
 };
