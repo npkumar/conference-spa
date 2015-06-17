@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<% include common/head %>
+
+<body>
+
+  <div class="header">
+    <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
+      <a class="pure-menu-heading" href="">Conference App</a>
+      <ul>
+        <li><a href="/profile"><span class="fa fa-user"></span> <%= user.local.email %></a></li>
+        <li>
+          <a href="/logout" class="btn btn-default"><span class="fa fa-power-off"></span>Logout</a>
+        </li>
+      </ul> 
+    </div>
+</div>
+
+<div class="container">
+  <div class="datails">
+    <h3><span class="fa fa-user"></span> User Details</h3>
+    <p> Welcome <%= user.local.email %> </p>
+  </div>
+</div>
+
+<% include common/footer %>
+</body>
+</html>

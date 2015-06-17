@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<% include common/head %>
+   
+<body>
+
+<div class="header">
+  <div class="pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
+    <a class="pure-menu-heading" href="">Conference App</a>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/login"> Login</a></li>
+      <li class="pure-menu-selected"><a href="/signup"> Signup</a></li>
+    </ul>
+  </div>
+</div>
+
+   <div class="container">
+     <h1> Signup</h1>
+
+     <% if (message.length > 0) { %>
+       <div class="alert"><%= message %></div>
+     <% } %>
+     
+    <form action="/signup" method="post" class="pure-form">
+      <fieldset>
+        <input id="email" class="pure-input-1" type="email" placeholder="Email Address" name="email" required>
+         <input id="password" class="pure-input-1" type="password" placeholder="Password" name="password" required>
+         <button type="submit" class="pure-button pure-button-primary">Submit</button>
+         <p>
+         Have an account? <a href="/login">Login</a> or go back to <a href="/">home</a>.
+         </p>
+       </fieldset>
+     </form>
+   </div>
+
+<% include common/footer %>
+
+</body>
+</html>
