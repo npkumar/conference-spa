@@ -17,12 +17,15 @@ var speakers = require('./server/routes/speaker')
 
 // Database configuration
 var config = require('./server/config/config.js');
+
+/*
 // connect to database
 mongoose.connect(config.url)
 // check if MongoDB is running
 mongoose.connection.on('error', function() {
   console.error('MongoDB Connection Error. Make sure MongoDB is running.');
 });
+*/
 
 var app = express();
 
@@ -43,25 +46,8 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// required for passport
-// secret for session
-app.use(session({
-  secret: 'secrettext',
-  saveUninitialized: true,
-  resave: true,
-  //store session on MongoDB using express-session + connect
-  store: new MongoStore({
-    url: config.url,
-    collection: 'sessions'
-  })
-}));
+app.use(session({secret:'somesecrettokenhere'}));
 
-// flash warning messages 
-app.use(flash());
-// Init passport authentication 
-app.use(passport.initialize());
-// persistent login sessions 
-app.use(passport.session());
 
 app.use('/', routes);
 app.use('/users', users);
