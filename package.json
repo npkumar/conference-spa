@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node server.js"
   },
   "dependencies": {
+    "arrowdb": "^1.0.6",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.12.4",
     "connect-flash": "^0.1.1",
