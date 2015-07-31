@@ -1,9 +1,23 @@
 <!doctype html>
 <html>
 <% include common/head %>
+<head>
+      <style>
+      input { border: 1; padding: 10px; width: 90%; margin-right: .5%; }
+      button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+      #typing_message { width: 100%; height: 20px; background-color: white;}
+      #chatbox { height: 400px; overflow: scroll;}
+    </style>
+
+ <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+</head>
 
 <body>
-
   <div class="header">
     <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
       <a class="pure-menu-heading" href="">Conference App</a>
@@ -15,14 +29,61 @@
       </ul> 
     </div>
 </div>
+<div id="first_name"><%= user.first_name %> </div>
 
 <div class="container">
   <div class="datails">
     <h3><span class="fa fa-user"></span> User Details</h3>
     <p> Welcome <%= user.first_name %> </p>
   </div>
+
+  <div>
+    <div id="typing_message"></div>
+    <input id="m" autocomplete="off" /><button id="submit">Send</button>
+    <div id="chatbox">
+    <ul id="messages"></ul>
+    </div>
+  </div>  
+
 </div>
 
 <% include common/footer %>
+
+<script>
+  var socket = io();
+  $('#submit').click(function(){
+    socket.emit('chat message', $('#first_name').text() + ': ' + $('#m').val());
+    $('#m').val('');
+    $('#typing_message').text('');
+
+    // scroll to bottom
+    var $elem = $('#chatbox');
+    $('#chatbox').animate({scrollTop: $elem.height()}, 800);
+  });
+
+  $('#m').keydown(function(event){
+    socket.emit('typing message', $('#first_name').text() + ' is typing..');
+  });
+  
+  $('#m').keyup(function(event){
+    socket.emit('typing message none', '');
+  });
+  
+  socket.on('chat message', function(msg){
+     $('#messages').append($('<li>').text(msg));
+     var $elem = $('#chatbox');
+     $('#chatbox').animate({scrollTop: $elem.height()}, 800);
+  });
+  
+  socket.on('typing message', function(msg){
+     $('#typing_message').text(msg);
+  });
+  
+  socket.on('typing message none', function(msg){
+     $('#typing_message').text('');
+  });
+
+</script>
+
 </body>
 </html>
