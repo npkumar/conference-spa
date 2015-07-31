@@ -46,7 +46,9 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({secret:'somesecrettokenhere'}));
+app.use(session({
+  secret: 'somesecrettokenhere'
+}));
 
 
 app.use('/', routes);
@@ -87,6 +89,33 @@ app.use(function(err, req, res, next) {
 app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + server.address().port);
+});
+
+//socket.io
+var io = require('socket.io')(server);
+io.on('connection', function(socket) {
+  console.log('a user connected');
+
+  // socket.on('chat message', function(msg){
+  //   console.log('message: ' + msg);
+  // });
+
+  // send the message to everyone, including the sender.
+  socket.on('chat message', function(msg) {
+    io.emit('chat message', msg);
+  });
+
+  socket.on('typing message', function(msg) {
+    io.emit('typing message', msg);
+  });
+
+  socket.on('typing message none', function(msg) {
+    io.emit('typing message', msg);
+  });
+
+  socket.on('disconnect', function() {
+    io.emit('user disconnected');
+  });
 });
 
 module.exports = app;
